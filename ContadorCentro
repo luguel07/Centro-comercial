@@ -1,0 +1,50 @@
+//Codigo Contador de personas centro comercial: Luis miguel correa vargas Grupi 301
+
+const int TriggerPin = PB10;
+const int EchoPin = PB11;
+const int BombilloBlanco= PB6;
+int contador =0;
+
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(TriggerPin, OUTPUT);
+  pinMode(EchoPin, INPUT);
+  pinMode(BombilloBlanco,OUTPUT);
+}
+
+void loop() {
+  int cm = ping(TriggerPin, EchoPin);
+ 
+}
+
+int ping(int TriggerPin, int EchoPin) {
+  long duration, distanceCm;
+  
+  digitalWrite(TriggerPin, LOW);  
+  delayMicroseconds(2);
+  digitalWrite(TriggerPin, HIGH);  //generamos Trigger (disparo) de 5ms
+  delayMicroseconds(5);
+  digitalWrite(TriggerPin, LOW);
+  
+  duration = pulseIn(EchoPin, HIGH);  //medimos el tiempo entre pulsos, en microseg
+  
+  distanceCm = duration * 10 / 292/ 2;   //convertimos a distancia, en cm
+ 
+  if (distanceCm <=35){
+ digitalWrite(BombilloBlanco,HIGH);
+ delay(200);
+ contador++;
+ ingreso();
+ delay(5000);
+ }
+
+else{
+digitalWrite(BombilloBlanco,LOW);
+}
+}
+void ingreso(){
+  Serial.println("**Ingresó una persona**");
+  Serial.print("Numero de personas ingresadas: ");
+  Serial.println(contador);
+}
